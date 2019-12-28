@@ -1,10 +1,18 @@
-FROM ubuntu:latest
+FROM ubuntu:disco
 
 RUN apt-get update
-RUN apt-get install -y x11vnc xvfb firefox vim python3
+RUN DEBIAN_FRONTEND=noninteractive \
+    apt-get install -y x11vnc xvfb firefox vim python3 python git openbox menu
+RUN apt-get autoclean && \
+    apt-get autoremove && \
+    rm -rf /var/lib/apt/lists/*
+RUN cd $HOME \
+    && git clone https://github.com/novnc/noVNC
+RUN cd ~/noVNC/utils \
+    && git clone https://github.com/novnc/websockify.git websockify
 
-RUN mkdir ~/.vnc
-RUN x11vnc -storepasswd 1234 ~/.vnc/passwd
+EXPOSE 6080
 
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
+
