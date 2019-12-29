@@ -1,21 +1,35 @@
-FROM ubuntu:disco
+FROM ubuntu:bionic
 
 RUN apt-get update
+RUN apt-get upgrade -y 
+RUN apt-get update 
+
+# Needed packages
 RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get install -y x11vnc \
+    apt-get install -y \
+        x11vnc \
         xvfb \
+        python \
+        python-numpy \
+        git \
+        nemo \
+        menu \ 
+        systemd \
+        mate-desktop-environment \
+        ubuntu-mate-themes
+
+# Optional Packages
+RUN DEBIAN_FRONTEND=noninteractive \
+    apt-get install -y \
         firefox \
         vim \
         python3 \
-        python \
-        git \
-        mate-desktop-environment \
-        ubuntu-mate-themes \
-        openbox \
-        menu
+        wget
+
 RUN apt-get autoclean && \
     apt-get autoremove && \
     rm -rf /var/lib/apt/lists/*
+
 RUN cd $HOME \
     && git clone https://github.com/novnc/noVNC
 RUN cd ~/noVNC/utils \
@@ -25,4 +39,3 @@ EXPOSE 6080
 
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["mate-session"]
