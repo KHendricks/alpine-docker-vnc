@@ -7,6 +7,7 @@ This is a barebones docker container that allows for a VNC connection to show GU
 
 ### Or to build and run directly:
 `docker build -t <image_name>`
+
 `docker run -dt -p 5900:5900 <image_name_or_id>`
 
 ### To connect to the container:
