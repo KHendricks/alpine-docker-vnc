@@ -17,5 +17,6 @@ Connect via vncviewer: `localhost:5900`
 
 
 ### Example:
-`docker build -t docker-vnc .`
+`docker build -t docker-vnc .` 
+
 `docker run -it -p 5900:5900 docker-vnc`
